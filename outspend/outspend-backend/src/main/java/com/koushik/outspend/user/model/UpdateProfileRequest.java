@@ -1,0 +1,5 @@
+package com.koushik.outspend.user.model;
+
+public class UpdateProfileRequest {
+
+}
