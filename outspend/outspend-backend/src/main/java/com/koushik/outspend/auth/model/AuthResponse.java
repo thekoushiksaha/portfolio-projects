@@ -1,5 +1,12 @@
 package com.koushik.outspend.auth.model;
 
-public class AuthResponse {
+import com.koushik.outspend.user.model.UserResponse;
+
+public record AuthResponse(
+        String accessToken,
+        String refreshTokne,
+        String tokenType,
+        long expiresInSeconds,
+        UserResponse user) {
 
 }
