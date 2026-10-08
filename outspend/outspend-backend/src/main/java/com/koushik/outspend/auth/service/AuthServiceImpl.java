@@ -71,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
         Role role = roleRepository.findByName(AppConstants.ROLE_USER)
                 .orElseThrow(() -> new IllegalStateException("ROLE_USER missing, check RoleSeeder"));
         User user = userRepository.save(User.builder()
-                .name(request.email().trim())
+                .name(request.name().trim())
                 .email(email)
                 .password(passwordEncoder.encode(request.password()))
                 .role(role)
