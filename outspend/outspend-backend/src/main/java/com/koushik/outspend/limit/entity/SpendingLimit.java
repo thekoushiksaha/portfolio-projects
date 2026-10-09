@@ -1,8 +1,8 @@
 package com.koushik.outspend.limit.entity;
 
 import java.math.BigDecimal;
-import java.util.Locale.Category;
 
+import com.koushik.outspend.expense.entity.Category;
 import com.koushik.outspend.user.entity.User;
 
 import jakarta.persistence.Column;
