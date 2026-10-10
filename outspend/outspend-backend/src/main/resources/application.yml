@@ -16,6 +16,9 @@ spring:
     open-in-view: false
 
 app:
+  name: OutSpend
+  version: 1.0.0
+
   jwt:
     secret: ${JWT_SECRET}
     access-expiry-minutes: 15
