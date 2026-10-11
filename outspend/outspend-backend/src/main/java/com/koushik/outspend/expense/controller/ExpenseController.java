@@ -22,12 +22,15 @@ import com.koushik.outspend.expense.model.ExpenseRequest;
 import com.koushik.outspend.expense.model.ExpenseResponse;
 import com.koushik.outspend.expense.service.ExpenseService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/expenses")
 @RequiredArgsConstructor
+@Tag(name = "Expenses", description = "Add, edit, delete and list your expenses")
 public class ExpenseController {
     private final ExpenseService expenseService;
 
@@ -37,6 +40,7 @@ public class ExpenseController {
                 .body(ApiResponse.ok("Expense added", expenseService.create(request)));
     }
 
+    @Operation(summary = "List my expenses with optional category and date filters")
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<ExpenseResponse>>> list(
             @RequestParam(required = false) Category category,

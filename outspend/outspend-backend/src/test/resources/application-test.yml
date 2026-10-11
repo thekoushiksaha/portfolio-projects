@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/outspend_test
+    username: postgres
+    password: ${DB_PASSWORD:password}
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+app:
+  jwt:
+    secret: test-secret-test-secret-test-secret-test-secret-test-secret-123456
