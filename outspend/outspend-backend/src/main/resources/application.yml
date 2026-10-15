@@ -6,8 +6,8 @@ spring:
     name: outspend
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/outspend
-    username: postgres
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/outspend}
+    username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD}
 
   jpa:
