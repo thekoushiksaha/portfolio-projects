@@ -6,7 +6,7 @@ import com.koushik.outspend.user.model.UpdateProfileRequest;
 import com.koushik.outspend.user.model.UserResponse;
 
 public interface UserService {
-    public User getCurrentUserEnitity();
+    public User getCurrentUserEntity();
 
     public UserResponse getCurrentUser();
 

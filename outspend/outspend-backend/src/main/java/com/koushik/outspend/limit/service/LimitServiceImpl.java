@@ -61,7 +61,7 @@ public class LimitServiceImpl implements LimitService {
     @Override
     @Transactional
     public LimitResponse save(LimitRequest request) {
-        User user = userService.getCurrentUserEnitity();
+        User user = userService.getCurrentUserEntity();
 
         SpendingLimit limit = findExisting(user.getId(), request.category())
                 .orElseGet(() -> {
@@ -82,7 +82,7 @@ public class LimitServiceImpl implements LimitService {
     @Transactional(readOnly = true)
     public List<LimitResponse> list(YearMonth month) {
         YearMonth target = (month != null) ? month : YearMonth.now();
-        Long userId = userService.getCurrentUserEnitity().getId();
+        Long userId = userService.getCurrentUserEntity().getId();
         Usage usage = usageFor(userId, target);
 
         return limitRepository.findByUserId(userId)
@@ -94,8 +94,9 @@ public class LimitServiceImpl implements LimitService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        Long userId = userService.getCurrentUserEnitity().getId();
+        Long userId = userService.getCurrentUserEntity().getId();
 
         SpendingLimit limit = limitRepository.findByIdAndUserId(id, userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Limit not found"));

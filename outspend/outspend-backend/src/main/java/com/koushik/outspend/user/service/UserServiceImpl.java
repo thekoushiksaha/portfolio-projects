@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
-    public User getCurrentUserEnitity() {
+    public User getCurrentUserEntity() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -34,13 +34,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse getCurrentUser() {
-        return userMapper.toResponse(getCurrentUserEnitity());
+        return userMapper.toResponse(getCurrentUserEntity());
     }
 
     @Override
     @Transactional
     public UserResponse updateProfile(UpdateProfileRequest request) {
-        User user = getCurrentUserEnitity();
+        User user = getCurrentUserEntity();
         user.setName(request.name().trim());
         return userMapper.toResponse(user);
     }
@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void changePassword(ChangePasswordRequest request) {
-        User user = getCurrentUserEnitity();
+        User user = getCurrentUserEntity();
 
         if (!passwordEncoder.matches(request.currentPassword(), user.getPassword())) {
             throw new BadRequestException("Current password is incorrect");

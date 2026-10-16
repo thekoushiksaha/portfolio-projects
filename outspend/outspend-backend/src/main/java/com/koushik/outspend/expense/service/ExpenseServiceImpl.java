@@ -44,7 +44,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     @Transactional
     public ExpenseResponse create(ExpenseRequest request) {
-        User user = userService.getCurrentUserEnitity();
+        User user = userService.getCurrentUserEntity();
         Expense saved = expenseRepository.save(expenseMapper.toEntity(request, user));
         return expenseMapper.toResponse(saved);
     }
@@ -56,7 +56,7 @@ public class ExpenseServiceImpl implements ExpenseService {
             throw new BadRequestException("'from' date must be on or before 'to' date");
         }
 
-        Long userId = userService.getCurrentUserEnitity().getId();
+        Long userId = userService.getCurrentUserEntity().getId();
 
         Specification<Expense> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -93,14 +93,14 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     @Transactional(readOnly = true)
     public ExpenseResponse get(Long id) {
-        Long userId = userService.getCurrentUserEnitity().getId();
+        Long userId = userService.getCurrentUserEntity().getId();
         return expenseMapper.toResponse(findOwned(id, userId));
     }
 
     @Override
     @Transactional
     public ExpenseResponse update(Long id, ExpenseRequest request) {
-        Long userId = userService.getCurrentUserEnitity().getId();
+        Long userId = userService.getCurrentUserEntity().getId();
         Expense expense = findOwned(id, userId);
         expenseMapper.updateEntity(expense, request);
         return expenseMapper.toResponse(expense);
@@ -109,7 +109,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Long userId = userService.getCurrentUserEnitity().getId();
+        Long userId = userService.getCurrentUserEntity().getId();
         expenseRepository.delete(findOwned(id, userId));
     }
 

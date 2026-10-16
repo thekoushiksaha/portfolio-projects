@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/outspend_test}
+    url: ${TEST_DB_URL:jdbc:postgresql://localhost:5432/outspend_test}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:password}
 

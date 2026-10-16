@@ -44,7 +44,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Transactional(readOnly = true)
     public SummaryResponse monthly(YearMonth month) {
         YearMonth target = (month != null) ? month : YearMonth.now();
-        Long userId = userService.getCurrentUserEnitity().getId();
+        Long userId = userService.getCurrentUserEntity().getId();
 
         BigDecimal total = totalFor(userId, target);
         BigDecimal previous = totalFor(userId, target.minusMonths(1));
@@ -67,7 +67,7 @@ public class SummaryServiceImpl implements SummaryService {
     @Transactional(readOnly = true)
     public List<MonthTotal> trend(int months) {
         int count = Math.min(Math.max(months, 1), MAX_TREND_MONTHS);
-        Long userId = userService.getCurrentUserEnitity().getId();
+        Long userId = userService.getCurrentUserEntity().getId();
         YearMonth current = YearMonth.now();
 
         List<MonthTotal> result = new ArrayList<>();
