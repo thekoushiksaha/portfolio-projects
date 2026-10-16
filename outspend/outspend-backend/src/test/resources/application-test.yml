@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: ${TEST_DB_URL:jdbc:postgresql://localhost:5432/outspend_test}
-    username: ${DB_USERNAME:postgres}
+    username: ${TEST_DB_USERNAME:postgres}
     password: ${DB_PASSWORD:password}
 
   jpa:
@@ -11,3 +11,6 @@ spring:
 app:
   jwt:
     secret: ${JWT_SECRET:my-secret-key-my-secret-key-my-secret-key-my-secret-key-my-secret-key-my-secret-key-my-secret-key-my-secret-key-1234321}
+  admin:
+    email: admin-test@outspend.com
+    password: Admin-Test@12345
