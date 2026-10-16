@@ -3,4 +3,8 @@ target
 .github
 .vscode
 .env
+.env.*
+workflows
+src/test
 *.md
+docker-compose.yml

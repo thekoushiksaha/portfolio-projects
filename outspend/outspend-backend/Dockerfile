@@ -18,4 +18,4 @@ COPY --from=build /workspace/target/*.jar app.jar
 USER appuser
 
 EXPOSE 8080
-ENTRYPOINT [ "java", "-XX:MaxRAMPercentage=75", "-jar", "app.jar" ]
+ENTRYPOINT [ "java", "-XX:MaxRAMPercentage=75", "-XX:+ExitOnOutOfMemoryError", "-jar", "app.jar" ]
