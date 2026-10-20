@@ -51,7 +51,7 @@ public class JwtUtil {
         }
     }
 
-    public long getAccessExpirtySeconds() {
+    public long getAccessExpirySeconds() {
         return accessExpiryMinutes * 60;
     }
 

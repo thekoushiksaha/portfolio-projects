@@ -51,6 +51,6 @@ public class JwtUtilTest {
 
     @Test
     void expirySeconds_matchesConfiguredMinutes() {
-        Assertions.assertThat(jwtUtil.getAccessExpirtySeconds()).isEqualTo(900);
+        Assertions.assertThat(jwtUtil.getAccessExpirySeconds()).isEqualTo(900);
     }
 }

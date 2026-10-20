@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         refreshToken.setExpiryDate(Instant.now().plus(refreshExpiryDays, ChronoUnit.DAYS));
         refreshTokenRepository.save(refreshToken);
 
-        return new AuthResponse(accessToken, refreshToken.getToken(), "Bearer", jwtUtil.getAccessExpirtySeconds(),
+        return new AuthResponse(accessToken, refreshToken.getToken(), "Bearer", jwtUtil.getAccessExpirySeconds(),
                 userMapper.toResponse(user));
     }
 

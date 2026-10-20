@@ -10,7 +10,7 @@ REST API for **OutSpend**, an expense-tracking app. Users sign up, log expenses,
 - **Summaries:** a monthly summary and a multi-month trend.
 - **Users:** view and update a profile, change password. Changing the password revokes all refresh tokens.
 - **Public endpoints:** an "about" endpoint and a contact form.
-- **Roles:** `USER` and `ADMIN`, with an admin account created on first startup.
+- **Roles:** `USER` and `ADMIN`, with an admin account created on first startup. Admins can read the contact messages through a protected endpoint.
 - **Operations:** Flyway migrations, OpenAPI docs, a health endpoint, a scheduled cleanup of expired refresh tokens, and one consistent JSON error format.
 
 ## Tech stack
@@ -53,15 +53,16 @@ Flyway creates the schema on first start. Locally the default profile is used, s
 
 All settings come from environment variables.
 
-| Variable          | Required | Description                                                                                           |
-| ----------------- | -------- | ----------------------------------------------------------------------------------------------------- |
-| `DB_PASSWORD`     | yes      | Postgres password                                                                                     |
-| `JWT_SECRET`      | yes      | Token signing key, at least 32 bytes. Generate one with `openssl rand -base64 48`                     |
-| `ADMIN_EMAIL`     | yes      | Email of the admin account created on first startup                                                   |
-| `ADMIN_PASSWORD`  | yes      | Password of that admin account                                                                        |
-| `DB_URL`          | no       | Defaults to `jdbc:postgresql://localhost:5432/outspend`. Docker Compose sets it to the `db` container |
-| `DB_USERNAME`     | no       | Defaults to `postgres`                                                                                |
-| `SWAGGER_ENABLED` | no       | Only used with the `prod` profile (which Compose sets). Defaults to `false`                           |
+| Variable                   | Required | Description                                                                                                                                                          |
+| -------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DB_PASSWORD`              | yes      | Postgres password                                                                                                                                                    |
+| `JWT_SECRET`               | yes      | Token signing key, at least 32 bytes. Generate one with `openssl rand -base64 48`                                                                                    |
+| `ADMIN_EMAIL`              | yes      | Email of the admin account created on first startup                                                                                                                  |
+| `ADMIN_PASSWORD`           | yes      | Password of that admin account                                                                                                                                       |
+| `DB_URL`                   | no       | Defaults to `jdbc:postgresql://localhost:5432/outspend`. Docker Compose sets it to the `db` container                                                                |
+| `DB_USERNAME`              | no       | Defaults to `postgres`                                                                                                                                               |
+| `SWAGGER_ENABLED`          | no       | Only used with the `prod` profile (which Compose sets). Defaults to `false`                                                                                          |
+| `APP_CORS_ALLOWED_ORIGINS` | no       | Comma-separated browser origins allowed to call the API. Defaults to `http://localhost:3000,http://localhost:5173`. Set it to your web frontend's URL when deploying |
 
 The app refuses to start if a required variable is missing, so there are no insecure defaults.
 
@@ -69,28 +70,29 @@ The app refuses to start if a required variable is missing, so there are no inse
 
 Every response uses the same envelope, and errors come back in the same shape with the right HTTP status. Protected endpoints need the header `Authorization: Bearer <access token>`. The full request and response schemas are in Swagger.
 
-| Method | Path                        | Auth   | Purpose                                                                    |
-| ------ | --------------------------- | ------ | -------------------------------------------------------------------------- |
-| POST   | `/api/v1/auth/register`     | public | Create an account                                                          |
-| POST   | `/api/v1/auth/login`        | public | Log in, returns access and refresh tokens                                  |
-| POST   | `/api/v1/auth/refresh`      | public | Exchange a refresh token for a new pair                                    |
-| POST   | `/api/v1/auth/logout`       | public | Revoke a refresh token                                                     |
-| GET    | `/api/v1/users/me`          | user   | Current profile                                                            |
-| PUT    | `/api/v1/users/me`          | user   | Update profile                                                             |
-| PUT    | `/api/v1/users/me/password` | user   | Change password                                                            |
-| POST   | `/api/v1/expenses`          | user   | Add an expense                                                             |
-| GET    | `/api/v1/expenses`          | user   | List expenses. Query: `category`, `from`, `to` (ISO dates), `page`, `size` |
-| GET    | `/api/v1/expenses/{id}`     | user   | Get one expense                                                            |
-| PUT    | `/api/v1/expenses/{id}`     | user   | Update an expense                                                          |
-| DELETE | `/api/v1/expenses/{id}`     | user   | Delete an expense                                                          |
-| PUT    | `/api/v1/limits`            | user   | Create or update a limit for a category                                    |
-| GET    | `/api/v1/limits`            | user   | List limits. Query: `month` (`yyyy-MM`)                                    |
-| DELETE | `/api/v1/limits/{id}`       | user   | Delete a limit                                                             |
-| GET    | `/api/v1/summary/monthly`   | user   | Monthly summary. Query: `month` (`yyyy-MM`)                                |
-| GET    | `/api/v1/summary/trend`     | user   | Spending trend. Query: `months` (default 6)                                |
-| GET    | `/api/v1/public/about`      | public | About the app                                                              |
-| POST   | `/api/v1/public/contact`    | public | Send a contact message                                                     |
-| GET    | `/actuator/health`          | public | Health check                                                               |
+| Method | Path                             | Auth   | Purpose                                                                    |
+| ------ | -------------------------------- | ------ | -------------------------------------------------------------------------- |
+| POST   | `/api/v1/auth/register`          | public | Create an account                                                          |
+| POST   | `/api/v1/auth/login`             | public | Log in, returns access and refresh tokens                                  |
+| POST   | `/api/v1/auth/refresh`           | public | Exchange a refresh token for a new pair                                    |
+| POST   | `/api/v1/auth/logout`            | public | Revoke a refresh token                                                     |
+| GET    | `/api/v1/users/me`               | user   | Current profile                                                            |
+| PUT    | `/api/v1/users/me`               | user   | Update profile                                                             |
+| PUT    | `/api/v1/users/me/password`      | user   | Change password                                                            |
+| POST   | `/api/v1/expenses`               | user   | Add an expense                                                             |
+| GET    | `/api/v1/expenses`               | user   | List expenses. Query: `category`, `from`, `to` (ISO dates), `page`, `size` |
+| GET    | `/api/v1/expenses/{id}`          | user   | Get one expense                                                            |
+| PUT    | `/api/v1/expenses/{id}`          | user   | Update an expense                                                          |
+| DELETE | `/api/v1/expenses/{id}`          | user   | Delete an expense                                                          |
+| PUT    | `/api/v1/limits`                 | user   | Create or update a limit for a category                                    |
+| GET    | `/api/v1/limits`                 | user   | List limits. Query: `month` (`yyyy-MM`)                                    |
+| DELETE | `/api/v1/limits/{id}`            | user   | Delete a limit                                                             |
+| GET    | `/api/v1/summary/monthly`        | user   | Monthly summary. Query: `month` (`yyyy-MM`)                                |
+| GET    | `/api/v1/summary/trend`          | user   | Spending trend. Query: `months` (default 6)                                |
+| GET    | `/api/v1/public/about`           | public | About the app                                                              |
+| POST   | `/api/v1/public/contact`         | public | Send a contact message                                                     |
+| GET    | `/api/v1/admin/contact-messages` | admin  | List contact messages, newest first. Query: `page`, `size` (max 50)        |
+| GET    | `/actuator/health`               | public | Health check                                                               |
 
 Each user can only see and change their own data.
 
@@ -104,7 +106,7 @@ curl -X POST http://localhost:8080/api/v1/auth/register \
 
 ## Tests
 
-The suite has 42 tests: unit tests for JWT and mapping, and integration tests that call the real HTTP endpoints against a real PostgreSQL database. They cover authentication and refresh-token reuse, expense and limit rules, access isolation between users, and the public endpoints.
+The suite has 54 tests: unit tests for JWT and mapping, and integration tests that call the real HTTP endpoints against a real PostgreSQL database. They cover authentication and refresh-token reuse, expense and limit rules, monthly summaries and trends, profile and password changes, admin-only access, access isolation between users, and the public endpoints.
 
 The tests use a separate database so they never touch your development data:
 
@@ -125,6 +127,7 @@ GitHub Actions (`.github/workflows/ci.yml` at the repo root) runs on every push 
 
 ```
 src/main/java/com/koushik/outspend
+├── admin/      admin-only endpoints (contact messages)
 ├── auth/       register, login, refresh and logout, refresh-token storage and cleanup
 ├── user/       profile and password
 ├── expense/    expenses and summaries
@@ -142,6 +145,7 @@ src/main/resources/db/migration   Flyway SQL migrations
 - **Schema changes go through Flyway.** Hibernate only validates the schema (`ddl-auto: validate`), so a mismatch fails at startup instead of silently altering the database. Migrations that have already run are never edited, only added to.
 - **Refresh-token rotation:** each refresh token is single-use. Presenting one that was already used is treated as theft, and all of that user's sessions are revoked.
 - **No secrets in the repo.** `.env` is gitignored and `.env.example` documents what is needed. The Docker image runs as a non-root user.
+- **Access tokens are short-lived on purpose.** They are not stored server-side, so after logout or a password change an already-issued access token stays valid until it expires (at most 15 minutes). Refresh tokens are revoked immediately, so no new tokens can be issued.
 
 ## Possible next steps
 

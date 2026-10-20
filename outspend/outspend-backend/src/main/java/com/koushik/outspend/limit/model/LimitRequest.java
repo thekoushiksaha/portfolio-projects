@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 
 public record LimitRequest(
-        Category category,
+                Category category,
 
-        @NotNull(message = "Monthly limit is required") @DecimalMin(value = "0.01", message = "Limit must be at least 0.01") @Digits(integer = 10, fraction = 2, message = "Limit can up to 10 digits and 2 decimals") BigDecimal monthlyLimit) {
+                @NotNull(message = "Monthly limit is required") @DecimalMin(value = "0.01", message = "Limit must be at least 0.01") @Digits(integer = 10, fraction = 2, message = "Limit can have up to 10 digits and 2 decimals") BigDecimal monthlyLimit) {
 }
