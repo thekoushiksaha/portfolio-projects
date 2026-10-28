@@ -26,6 +26,12 @@ app:
   admin:
     email: ${ADMIN_EMAIL}
     password: ${ADMIN_PASSWORD}
+  
+  rate-limit:
+    enabled: true
+    auth-max-requests: 10
+    contact-max-requests: 5
+    window-seconds: 60
 
 management:
   endpoints:

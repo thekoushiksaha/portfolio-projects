@@ -53,16 +53,20 @@ Flyway creates the schema on first start. Locally the default profile is used, s
 
 All settings come from environment variables.
 
-| Variable                   | Required | Description                                                                                                                                                          |
-| -------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `DB_PASSWORD`              | yes      | Postgres password                                                                                                                                                    |
-| `JWT_SECRET`               | yes      | Token signing key, at least 32 bytes. Generate one with `openssl rand -base64 48`                                                                                    |
-| `ADMIN_EMAIL`              | yes      | Email of the admin account created on first startup                                                                                                                  |
-| `ADMIN_PASSWORD`           | yes      | Password of that admin account                                                                                                                                       |
-| `DB_URL`                   | no       | Defaults to `jdbc:postgresql://localhost:5432/outspend`. Docker Compose sets it to the `db` container                                                                |
-| `DB_USERNAME`              | no       | Defaults to `postgres`                                                                                                                                               |
-| `SWAGGER_ENABLED`          | no       | Only used with the `prod` profile (which Compose sets). Defaults to `false`                                                                                          |
-| `APP_CORS_ALLOWED_ORIGINS` | no       | Comma-separated browser origins allowed to call the API. Defaults to `http://localhost:3000,http://localhost:5173`. Set it to your web frontend's URL when deploying |
+| Variable                              | Required | Description                                                                                                                                                          |
+| ------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DB_PASSWORD`                         | yes      | Postgres password                                                                                                                                                    |
+| `JWT_SECRET`                          | yes      | Token signing key, at least 32 bytes. Generate one with `openssl rand -base64 48`                                                                                    |
+| `ADMIN_EMAIL`                         | yes      | Email of the admin account created on first startup                                                                                                                  |
+| `ADMIN_PASSWORD`                      | yes      | Password of that admin account                                                                                                                                       |
+| `DB_URL`                              | no       | Defaults to `jdbc:postgresql://localhost:5432/outspend`. Docker Compose sets it to the `db` container                                                                |
+| `DB_USERNAME`                         | no       | Defaults to `postgres`                                                                                                                                               |
+| `SWAGGER_ENABLED`                     | no       | Only used with the `prod` profile (which Compose sets). Defaults to `false`                                                                                          |
+| `APP_CORS_ALLOWED_ORIGINS`            | no       | Comma-separated browser origins allowed to call the API. Defaults to `http://localhost:3000,http://localhost:5173`. Set it to your web frontend's URL when deploying |
+| `app.rate-limit.enabled`              | no       | Turn rate limiting on or off. Default `true`                                                                                                                         |
+| `app.rate-limit.auth-max-requests`    | no       | Login + register requests allowed per IP per window. Default `10`                                                                                                    |
+| `app.rate-limit.contact-max-requests` | no       | Contact-form requests allowed per IP per window. Default `5`                                                                                                         |
+| `app.rate-limit.window-seconds`       | no       | Window length in seconds. Default `60`                                                                                                                               |
 
 The app refuses to start if a required variable is missing, so there are no insecure defaults.
 
@@ -146,6 +150,7 @@ src/main/resources/db/migration   Flyway SQL migrations
 - **Refresh-token rotation:** each refresh token is single-use. Presenting one that was already used is treated as theft, and all of that user's sessions are revoked.
 - **No secrets in the repo.** `.env` is gitignored and `.env.example` documents what is needed. The Docker image runs as a non-root user.
 - **Access tokens are short-lived on purpose.** They are not stored server-side, so after logout or a password change an already-issued access token stays valid until it expires (at most 15 minutes). Refresh tokens are revoked immediately, so no new tokens can be issued.
+- **Rate limiting.** Login, register and the contact form are limited per client IP with an in-memory fixed window; extra requests get `429` with a `Retry-After` header. It is meant for a single instance. Running several instances would need a shared store such as Redis.
 
 ## Possible next steps
 

@@ -14,3 +14,7 @@ app:
   admin:
     email: admin-test@outspend.com
     password: Admin-Test@12345
+
+  rate-limit:
+    auth-max-requests: 100000
+    contact-max-requests: 100000
