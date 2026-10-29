@@ -9,3 +9,18 @@ export class ApiError extends Error {
     this.fieldErrors = fieldErrors;
   }
 }
+
+export interface FormErrors {
+  message: string | null; // general message for a banner
+  fields: Record<string, string>; // messages to show under specific inputs
+}
+
+export function toFormErrors(error: unknown): FormErrors {
+  if (error instanceof ApiError) {
+    if (error.fieldErrors && Object.keys(error.fieldErrors).length > 0) {
+      return { message: null, fields: error.fieldErrors };
+    }
+    return { message: error.message, fields: {} };
+  }
+  return { message: 'Something went wrong. Try again', fields: {} };
+}

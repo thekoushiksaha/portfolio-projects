@@ -1,13 +1,17 @@
+import type { ComponentRef, Ref } from 'react';
 import { StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 
 import { radius, spacing, useStyles, useTheme, type ThemeColors } from '@/shared/theme';
 
+export type TextInputHandle = ComponentRef<typeof TextInput>;
+
 type TextFieldProps = TextInputProps & {
   label: string;
   error?: string; // shown under the field, for example a server validation message
+  inputRef?: Ref<TextInputHandle>; // lets a form focus this field from another field
 };
 
-export function TextField({ label, error, style, ...inputProps }: TextFieldProps) {
+export function TextField({ label, error, inputRef, style, ...inputProps }: TextFieldProps) {
   const { colors, scheme } = useTheme();
   const styles = useStyles(makeStyles);
 
@@ -17,6 +21,7 @@ export function TextField({ label, error, style, ...inputProps }: TextFieldProps
         {label}
       </Text>
       <TextInput
+        ref={inputRef}
         placeholderTextColor={colors.textMuted}
         keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
         maxFontSizeMultiplier={1.3}

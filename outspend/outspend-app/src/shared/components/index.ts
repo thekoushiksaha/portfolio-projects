@@ -6,5 +6,6 @@ export { LoadingView } from './LoadingView';
 export { Logo } from './Logo';
 export { ResponsiveRow } from './ResponsiveRow';
 export { Screen } from './Screen';
-export { TextField } from './TextField';
+export { TextField, type TextInputHandle } from './TextField';
 export { ThemeSwitcher } from './ThemeSwitcher';
+export { ComingSoon } from './ComingSoon';

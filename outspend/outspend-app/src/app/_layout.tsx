@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
+import { AuthProvider } from '@/features/auth/AuthProvider';
 import { ThemeProvider, useTheme } from '@/shared/theme';
 
 function ThemedStack() {
@@ -22,7 +23,9 @@ function ThemedStack() {
 export default function RootLayout() {
   return (
     <ThemeProvider>
-      <ThemedStack />
+      <AuthProvider>
+        <ThemedStack />
+      </AuthProvider>
     </ThemeProvider>
   );
 }
