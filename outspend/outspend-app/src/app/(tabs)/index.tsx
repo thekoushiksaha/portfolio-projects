@@ -1,5 +1,3 @@
-import { ComingSoon } from '@/shared/components';
+import { SummaryScreen } from '@/features/summary/screens/SummaryScreen';
 
-export default function SummaryRoute() {
-  return <ComingSoon title="Summary" />;
-}
+export default SummaryScreen;
