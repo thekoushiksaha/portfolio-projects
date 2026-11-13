@@ -1,5 +1,3 @@
-import { ComingSoon } from '@/shared/components';
+import { AddExpenseScreen } from '@/features/expenses/screens/AddExpenseScreen';
 
-export default function UpdateRoute() {
-  return <ComingSoon title="Update" />;
-}
+export default AddExpenseScreen;

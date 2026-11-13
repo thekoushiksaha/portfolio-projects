@@ -7,7 +7,7 @@ type ButtonProps = {
   onPress: () => void;
   loading?: boolean;
   disabled?: boolean;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'danger';
 };
 
 export function Button({
@@ -19,8 +19,14 @@ export function Button({
 }: ButtonProps) {
   const { colors } = useTheme();
   const styles = useStyles(makeStyles);
-  const primary = variant === 'primary';
   const inactive = loading || disabled;
+  const outlined = variant === 'secondary';
+  const spinnerColor =
+    variant === 'secondary'
+      ? colors.primary
+      : variant === 'danger'
+        ? colors.onDanger
+        : colors.onPrimary;
 
   return (
     <Pressable
@@ -30,17 +36,17 @@ export function Button({
       accessibilityState={{ disabled: inactive, busy: loading }}
       style={({ pressed }) => [
         styles.button,
-        primary ? styles.primary : styles.secondary,
+        styles[variant],
         pressed && styles.pressed,
         inactive && styles.inactive,
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={primary ? colors.onPrimary : colors.primary} />
+        <ActivityIndicator color={spinnerColor} />
       ) : (
         <Text
           maxFontSizeMultiplier={1.3}
-          style={[styles.text, primary ? styles.textPrimary : styles.textSecondary]}
+          style={[styles.text, outlined ? styles.textOutlined : styles[`${variant}Text`]]}
         >
           {title}
         </Text>
@@ -61,9 +67,12 @@ const makeStyles = (c: ThemeColors) =>
     },
     primary: { backgroundColor: c.primary },
     secondary: { borderWidth: 1, borderColor: c.primary, backgroundColor: 'transparent' },
+    danger: { backgroundColor: c.danger },
     pressed: { opacity: 0.85 },
     inactive: { opacity: 0.7 },
     text: { fontSize: 16, fontWeight: '600' },
-    textPrimary: { color: c.onPrimary },
-    textSecondary: { color: c.primary },
+    primaryText: { color: c.onPrimary },
+    secondaryText: { color: c.primary },
+    dangerText: { color: c.onDanger },
+    textOutlined: { color: c.primary },
   });

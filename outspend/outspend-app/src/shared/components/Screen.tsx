@@ -7,16 +7,19 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { contentWidths, useLayout, type ContentWidth } from '@/shared/layout/useLayout';
-import { spacing, useStyles, useTheme, type ThemeColors } from '@/shared/theme';
+import { useContentStyle } from '@/shared/layout/useContentStyle';
+import type { ContentWidth } from '@/shared/layout/useLayout';
+import { useTheme } from '@/shared/theme';
+
+import { SafeScreen } from './SafeScreen';
 
 type ScreenProps = {
   children: ReactNode;
   onRefresh?: () => void; // adds pull-to-refresh when provided
   refreshing?: boolean;
-  width?: ContentWidth; // 'form' for login-style screens, 'content' (default), 'wide' for dashboards
+  width?: ContentWidth; // 'form' for forms, 'content' (default), 'wide' for dashboards and lists
+  hasHeader?: boolean; // true on screens that show a navigation header
 };
 
 export function Screen({
@@ -24,13 +27,13 @@ export function Screen({
   onRefresh,
   refreshing = false,
   width = 'content',
+  hasHeader = false,
 }: ScreenProps) {
   const { colors } = useTheme();
-  const { horizontalPadding } = useLayout();
-  const styles = useStyles(makeStyles);
+  const contentStyle = useContentStyle(width);
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
+    <SafeScreen hasHeader={hasHeader}>
       <KeyboardAvoidingView
         style={styles.flex}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -49,24 +52,14 @@ export function Screen({
             ) : undefined
           }
         >
-          <View
-            style={[
-              styles.content,
-              { maxWidth: contentWidths[width], paddingHorizontal: horizontalPadding },
-            ]}
-          >
-            {children}
-          </View>
+          <View style={contentStyle}>{children}</View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </SafeScreen>
   );
 }
 
-const makeStyles = (c: ThemeColors) =>
-  StyleSheet.create({
-    safe: { flex: 1, backgroundColor: c.background },
-    flex: { flex: 1 },
-    scroll: { flexGrow: 1, alignItems: 'center' },
-    content: { width: '100%', paddingVertical: spacing.lg, gap: spacing.md },
-  });
+const styles = StyleSheet.create({
+  flex: { flex: 1 },
+  scroll: { flexGrow: 1 },
+});

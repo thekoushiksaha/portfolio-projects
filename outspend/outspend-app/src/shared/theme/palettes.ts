@@ -9,6 +9,7 @@ export interface ThemeColors {
   primary: string;
   onPrimary: string;
   danger: string;
+  onDanger: string;
   warning: string;
   success: string;
 }
@@ -24,6 +25,7 @@ export const lightColors: ThemeColors = {
   primary: '#D85A30',
   onPrimary: '#FFFFFF',
   danger: '#B3261E',
+  onDanger: '#FFFFFF',
   warning: '#9A5B00',
   success: '#2E7D32',
 };
@@ -39,6 +41,7 @@ export const darkColors: ThemeColors = {
   primary: '#D85A30',
   onPrimary: '#FFFFFF',
   danger: '#FF8A80',
+  onDanger: '#2B0A07',
   warning: '#FFB74D',
   success: '#81C784',
 };

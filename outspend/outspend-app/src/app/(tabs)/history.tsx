@@ -1,5 +1,3 @@
-import { ComingSoon } from '@/shared/components';
+import { HistoryScreen } from '@/features/expenses/screens/HistoryScreen';
 
-export default function HistoryRoute() {
-  return <ComingSoon title="History" />;
-}
+export default HistoryScreen;
