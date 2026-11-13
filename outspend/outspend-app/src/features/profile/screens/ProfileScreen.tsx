@@ -1,17 +1,14 @@
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 
 import { useAuth } from '@/features/auth/AuthProvider';
-import {
-  Button,
-  Card,
-  Muted,
-  Screen,
-  SectionTitle,
-  ThemeSwitcher,
-  Title,
-} from '@/shared/components';
+import { Button, Card, Screen, SectionTitle, Title } from '@/shared/components';
+
+import { MenuRow } from '../components/MenuRow';
+import { ProfileHeader } from '../components/ProfileHeader';
 
 export function ProfileScreen() {
+  const router = useRouter();
   const { user, signOut } = useAuth();
   const [signingOut, setSigningOut] = useState(false);
 
@@ -23,15 +20,42 @@ export function ProfileScreen() {
   return (
     <Screen width="form">
       <Title>Profile</Title>
+      <ProfileHeader user={user} />
 
-      <Card tinted>
-        <Title>{user?.name}</Title>
-        <Muted>{user?.email}</Muted>
-        <Muted>Account type: {user?.role === 'ROLE_ADMIN' ? 'Admin' : 'User'}</Muted>
+      <SectionTitle>Account</SectionTitle>
+      <Card>
+        <MenuRow
+          icon="person-outline"
+          label="Edit profile"
+          onPress={() => router.push('/account/edit-profile')}
+        />
+        <MenuRow
+          icon="key-outline"
+          label="Change password"
+          onPress={() => router.push('/account/change-password')}
+          last
+        />
       </Card>
 
-      <SectionTitle>Appearance</SectionTitle>
-      <ThemeSwitcher />
+      <SectionTitle>App</SectionTitle>
+      <Card>
+        <MenuRow
+          icon="settings-outline"
+          label="Settings"
+          onPress={() => router.push('/account/settings')}
+        />
+        <MenuRow
+          icon="information-circle-outline"
+          label="About"
+          onPress={() => router.push('/account/about')}
+        />
+        <MenuRow
+          icon="chatbubble-ellipses-outline"
+          label="Contact us"
+          onPress={() => router.push('/account/contact')}
+          last
+        />
+      </Card>
 
       <Button title="Log out" variant="secondary" onPress={onSignOut} loading={signingOut} />
     </Screen>

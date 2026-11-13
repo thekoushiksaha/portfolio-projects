@@ -3,3 +3,9 @@ export interface About {
   version: string;
   description: string;
 }
+
+export interface ContactInput {
+  name: string;
+  email: string;
+  message: string;
+}

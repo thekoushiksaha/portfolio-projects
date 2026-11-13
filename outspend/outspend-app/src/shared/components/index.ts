@@ -16,6 +16,7 @@ export { SafeScreen } from './SafeScreen';
 export { Screen } from './Screen';
 export { Skeleton } from './Skeleton';
 export { SuccessBanner } from './SuccessBanner';
+export { SwitchRow } from './SwitchRow';
 export { TextField, type TextInputHandle } from './TextField';
 export { ThemeSwitcher } from './ThemeSwitcher';
 export { Body, Muted, SectionTitle, Title } from './Typography';
