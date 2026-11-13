@@ -12,6 +12,8 @@ export interface ThemeColors {
   onDanger: string;
   warning: string;
   success: string;
+  skeleton: string;
+  skeletonHighlight: string;
 }
 
 export const lightColors: ThemeColors = {
@@ -28,6 +30,8 @@ export const lightColors: ThemeColors = {
   onDanger: '#FFFFFF',
   warning: '#9A5B00',
   success: '#2E7D32',
+  skeleton: '#EFE7E2',
+  skeletonHighlight: 'rgba(255, 255, 255, 0.7)',
 };
 
 export const darkColors: ThemeColors = {
@@ -44,4 +48,6 @@ export const darkColors: ThemeColors = {
   onDanger: '#2B0A07',
   warning: '#FFB74D',
   success: '#81C784',
+  skeleton: '#2B2521',
+  skeletonHighlight: 'rgba(255, 255, 255, 0.07)',
 };

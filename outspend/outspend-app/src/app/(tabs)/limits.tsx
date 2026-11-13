@@ -1,5 +1,3 @@
-import { ComingSoon } from '@/shared/components';
+import { LimitsScreen } from '@/features/limits/screens/LimitsScreen';
 
-export default function LimitsRoute() {
-  return <ComingSoon title="Limits" />;
-}
+export default LimitsScreen;

@@ -1,4 +1,5 @@
 import type { Category } from '@/shared/domain/categories';
+import { parseAmount } from '@/shared/lib/amount';
 import { isValidIsoDate } from '@/shared/lib/dates';
 
 import type { ExpenseInput } from './types';
@@ -16,14 +17,9 @@ export function validateExpense(values: ExpenseFormValues): {
 } {
   const errors: Record<string, string> = {};
 
-  // Accept "12,50" as well as "12.50".
-  const amountText = values.amount.trim().replace(',', '.');
-  if (!amountText) {
-    errors.amount = 'Enter an amount';
-  } else if (!/^\d{1,10}(\.\d{1,2})?$/.test(amountText)) {
-    errors.amount = 'Use a number with up to 2 decimals';
-  } else if (Number(amountText) < 0.01) {
-    errors.amount = 'Amount must be at least 0.01';
+  const amount = parseAmount(values.amount);
+  if (amount.error) {
+    errors.amount = amount.error;
   }
 
   if (!values.category) {
@@ -38,14 +34,14 @@ export function validateExpense(values: ExpenseFormValues): {
     errors.note = 'Note can be up to 255 characters';
   }
 
-  if (Object.keys(errors).length > 0 || !values.category) {
+  if (Object.keys(errors).length > 0 || !values.category || amount.value === null) {
     return { input: null, errors };
   }
 
   const note = values.note.trim();
   return {
     input: {
-      amount: Number(amountText),
+      amount: amount.value,
       category: values.category,
       expenseDate: values.expenseDate,
       note: note || undefined,

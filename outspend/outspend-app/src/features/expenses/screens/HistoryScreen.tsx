@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { ActivityIndicator, FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
+import { ExpenseListSkeleton } from '../components/ExpenseListSkeleton';
 
 import { toFormErrors } from '@/shared/api/errors';
 import {
@@ -73,7 +74,9 @@ export function HistoryScreen() {
     </View>
   );
 
-  const empty = list.loading ? undefined : (
+  const empty = list.loading ? (
+    <ExpenseListSkeleton count={6} />
+  ) : (
     <Card>
       <Muted>No expenses match these filters.</Muted>
       <Button title="Add an expense" variant="secondary" onPress={() => router.push('/add')} />
@@ -94,9 +97,7 @@ export function HistoryScreen() {
         keyboardShouldPersistTaps="handled"
         ListHeaderComponent={header}
         ListEmptyComponent={empty}
-        ListFooterComponent={
-          list.loadingMore ? <ActivityIndicator color={colors.primary} /> : undefined
-        }
+        ListFooterComponent={list.loadingMore ? <ExpenseListSkeleton count={2} /> : undefined}
         onEndReached={list.loadMore}
         onEndReachedThreshold={0.4}
         refreshControl={

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import {
   Button,
@@ -11,15 +11,14 @@ import {
   Title,
 } from '@/shared/components';
 import { currentMonth } from '@/shared/lib/dates';
-import { useTheme } from '@/shared/theme';
 
 import { CategoryBreakdown } from '../components/CategoryBreakdown';
+import { SummarySkeleton } from '../components/SummarySkeleton';
 import { TotalCard } from '../components/TotalCard';
 import { TrendCard } from '../components/TrendChart';
 import { useSummary } from '../hooks/useSummary';
 
 export function SummaryScreen() {
-  const { colors } = useTheme();
   const [month, setMonth] = useState(currentMonth());
   const { summary, trend, error, loading, refreshing, refresh, reload } = useSummary(month);
 
@@ -28,10 +27,10 @@ export function SummaryScreen() {
       <Title>Summary</Title>
       <MonthSwitcher month={month} onChange={setMonth} />
 
-      {loading ? <ActivityIndicator color={colors.primary} /> : null}
-
       <ErrorBanner message={error} />
       {error && !summary ? <Button title="Try again" variant="secondary" onPress={reload} /> : null}
+
+      {loading && !summary ? <SummarySkeleton /> : null}
 
       {summary ? (
         <View style={{ gap: 16, opacity: loading ? 0.5 : 1 }}>
