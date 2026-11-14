@@ -84,3 +84,12 @@ export function formatDate(iso: string): string {
   const date = parseIsoDate(iso);
   return `${WEEKDAYS[date.getDay()]}, ${date.getDate()} ${MONTHS[date.getMonth()].slice(0, 3)} ${date.getFullYear()}`;
 }
+
+// "2026-11-13T10:15:30Z" -> "Fri, 13 Nov 2026, 15:45" in the phone's own time zone
+export function formatDateTime(isoInstant: string): string {
+  const date = new Date(isoInstant);
+  if (Number.isNaN(date.getTime())) {
+    return isoInstant;
+  }
+  return `${formatDate(toIsoDate(date))}, ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}

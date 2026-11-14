@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { Button, Card, Screen, SectionTitle, Title } from '@/shared/components';
 
+import { isAdmin } from '@/features/auth/roles';
 import { MenuRow } from '../components/MenuRow';
 import { ProfileHeader } from '../components/ProfileHeader';
 
@@ -36,6 +37,19 @@ export function ProfileScreen() {
           last
         />
       </Card>
+      {isAdmin(user) ? (
+        <>
+          <SectionTitle>Admin</SectionTitle>
+          <Card>
+            <MenuRow
+              icon="mail-unread-outline"
+              label="Contact messages"
+              onPress={() => router.push('/account/messages')}
+              last
+            />
+          </Card>
+        </>
+      ) : null}
 
       <SectionTitle>App</SectionTitle>
       <Card>

@@ -30,6 +30,9 @@ export default function AccountLayout() {
       <Stack.Screen name="settings" options={{ title: 'Settings' }} />
       <Stack.Screen name="about" options={{ title: 'About' }} />
       <Stack.Screen name="contact" options={{ title: 'Contact us' }} />
+      <Stack.Screen name="messages" options={{ title: 'Contact messages' }} />
     </Stack>
   );
 }
+
+export { AppErrorBoundary as ErrorBoundary } from '@/shared/components/AppErrorBoundary';

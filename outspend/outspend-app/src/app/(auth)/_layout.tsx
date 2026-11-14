@@ -21,3 +21,5 @@ export default function AuthLayout() {
     />
   );
 }
+
+export { AppErrorBoundary as ErrorBoundary } from '@/shared/components/AppErrorBoundary';

@@ -27,3 +27,5 @@ export default function ExpenseLayout() {
     />
   );
 }
+
+export { AppErrorBoundary as ErrorBoundary } from '@/shared/components/AppErrorBoundary';
