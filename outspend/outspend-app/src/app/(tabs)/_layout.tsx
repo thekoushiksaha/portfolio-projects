@@ -5,6 +5,7 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { LoadingView } from '@/shared/components';
 import { useLayout } from '@/shared/layout/useLayout';
 import { useTheme } from '@/shared/theme';
+import { Platform, Pressable } from 'react-native';
 
 export default function TabsLayout() {
   const { status } = useAuth();
@@ -29,8 +30,19 @@ export default function TabsLayout() {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
           borderRightColor: colors.border,
+          padding: 4,
         },
         sceneStyle: { backgroundColor: colors.background },
+        tabBarButton: ({ ref, style, ...props }) => (
+          <Pressable
+            {...props}
+            android_ripple={{
+              color: colors.surfaceTint,
+              borderless: false,
+            }}
+            style={({ pressed }) => [style, Platform.OS === 'ios' && pressed && { opacity: 0.7 }]}
+          />
+        ),
       }}
     >
       <Tabs.Screen
