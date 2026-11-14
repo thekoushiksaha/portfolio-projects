@@ -52,50 +52,98 @@ export interface ThemeColors {
 //   skeletonHighlight: 'rgba(255, 255, 255, 0.07)',
 // };
 
+// export const lightColors: ThemeColors = {
+//   background: '#F7F9FC',
+//   surface: '#FFFFFF',
+//   surfaceTint: '#EAF1FF',
+//   onTint: '#1E3A8A',
+
+//   text: '#172033',
+//   textMuted: '#667085',
+
+//   border: '#E4E9F0',
+
+//   primary: '#2563EB',
+//   onPrimary: '#FFFFFF',
+
+//   danger: '#B42318',
+//   onDanger: '#FFFFFF',
+
+//   warning: '#f97f38',
+//   success: '#16803C',
+
+//   skeleton: '#E9EEF5',
+//   skeletonHighlight: 'rgba(255, 255, 255, 0.75)',
+// };
+
+// export const darkColors: ThemeColors = {
+//   background: '#0B1220',
+//   surface: '#111C2E',
+//   surfaceTint: '#1B2B46',
+//   onTint: '#C7DAFF',
+
+//   text: '#E8EEF8',
+//   textMuted: '#A3B0C2',
+
+//   border: '#26354A',
+
+//   primary: '#7AA7FF',
+//   onPrimary: '#0B1B36',
+
+//   danger: '#FF8A8A',
+//   onDanger: '#3A1114',
+
+//   warning: '#F5BD64',
+//   success: '#6BD49A',
+
+//   skeleton: '#202D40',
+//   skeletonHighlight: 'rgba(255, 255, 255, 0.06)',
+// };
+
 export const lightColors: ThemeColors = {
-  background: '#F7F9FC',
+  background: '#FAF9F6',
   surface: '#FFFFFF',
-  surfaceTint: '#EAF1FF',
-  onTint: '#1E3A8A',
+  surfaceTint: '#FEF3C7',
+  onTint: '#78350F',
 
-  text: '#172033',
-  textMuted: '#667085',
+  text: '#18181B',
+  textMuted: '#6B6B76',
 
-  border: '#E4E9F0',
+  border: '#E6E2D8',
 
-  primary: '#2563EB',
+  primary: '#B45309',
   onPrimary: '#FFFFFF',
 
-  danger: '#B42318',
+  danger: '#B91C1C',
   onDanger: '#FFFFFF',
 
-  warning: '#f97f38',
-  success: '#16803C',
+  warning: '#D97706',
+  success: '#15803D',
 
-  skeleton: '#E9EEF5',
+  skeleton: '#EFECE4',
   skeletonHighlight: 'rgba(255, 255, 255, 0.75)',
 };
 
 export const darkColors: ThemeColors = {
-  background: '#0B1220',
-  surface: '#111C2E',
-  surfaceTint: '#1B2B46',
-  onTint: '#C7DAFF',
+  background: '#0E0E10',
+  surface: '#18181B',
+  surfaceTint: '#2E2414',
+  onTint: '#FDE68A',
 
-  text: '#E8EEF8',
-  textMuted: '#A3B0C2',
+  text: '#FAFAFA',
+  textMuted: '#9E9EA9',
 
-  border: '#26354A',
+  border: '#2E2E34',
 
-  primary: '#7AA7FF',
-  onPrimary: '#0B1B36',
+  primary: '#FBBF24',
+  onPrimary: '#291A03',
 
   danger: '#FF8A8A',
   onDanger: '#3A1114',
 
-  warning: '#F5BD64',
-  success: '#6BD49A',
+  warning: '#FB923C',
+  success: '#4ADE80',
 
-  skeleton: '#202D40',
+  skeleton: '#242429',
   skeletonHighlight: 'rgba(255, 255, 255, 0.06)',
 };
